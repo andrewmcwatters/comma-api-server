@@ -9,6 +9,10 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "ws": "^8.16.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8"
   }
 }
