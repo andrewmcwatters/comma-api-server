@@ -9,5 +9,5 @@ wss.on('connection', function connection(ws) {
     console.log('received: %s', data);
   });
 
-  ws.send('something');
+  // ws.send('something');
 });
