@@ -25,7 +25,7 @@ const interval = setInterval(function ping() {
     ws.isAlive = false;
     ws.ping();
   });
-}, 10000);
+}, 20000);
 
 wss.on('close', function close() {
   clearInterval(interval);
