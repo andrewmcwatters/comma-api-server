@@ -1,7 +1,7 @@
 const { WebSocketServer } = require('ws');
 
 function heartbeat(data) {
-  console.log(data.toString());
+  console.log(data)
   this.isAlive = true;
 }
 
