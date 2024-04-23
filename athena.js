@@ -1,5 +1,5 @@
 const { WebSocketServer } = require('ws');
-const { JSONRPCServer } = require('json-rpc-2.0');
+const { JSONRPCServer, createJSONRPCErrorResponse } = require('json-rpc-2.0');
 
 function heartbeat() {
   this.isAlive = true;
@@ -40,6 +40,30 @@ const interval = setInterval(function ping() {
 wss.on('close', function close() {
   clearInterval(interval);
 });
+
+// next will call the next middleware
+const logMiddleware = (next, request, serverParams) => {
+  console.log(`Received ${JSON.stringify(request)}`);
+  return next(request, serverParams).then((response) => {
+    console.log(`Responding ${JSON.stringify(response)}`);
+    return response;
+  });
+};
+
+const exceptionMiddleware = async (next, request, serverParams) => {
+  try {
+    return await next(request, serverParams);
+  } catch (error) {
+    if (error.code) {
+      return createJSONRPCErrorResponse(request.id, error.code, error.message);
+    } else {
+      throw error;
+    }
+  }
+};
+
+// Middleware will be called in the same order they are applied
+server.applyMiddleware(logMiddleware, exceptionMiddleware);
 
 server.addMethod('forwardLogs', (params) => {
   console.log(params);
