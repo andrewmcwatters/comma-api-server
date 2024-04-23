@@ -1,10 +1,12 @@
 const { WebSocketServer } = require('ws');
+const { JSONRPCServer } = require("json-rpc-2.0");
 
 function heartbeat() {
   this.isAlive = true;
 }
 
 const wss = new WebSocketServer({ port: 8080 });
+const server = new JSONRPCServer();
 
 wss.on('connection', function connection(ws) {
   ws.isAlive = true;
@@ -12,7 +14,12 @@ wss.on('connection', function connection(ws) {
   ws.on('pong', heartbeat);
 
   ws.on('message', function message(data) {
-    console.log('received: %s', data);
+    // console.log('received: %s', data);
+    server.receive(data).then((jsonRPCResponse) => {
+      if (jsonRPCResponse) {
+        ws.send(JSON.stringify(jsonRPCResponse));
+      }
+    });
   });
 
   // ws.send('something');
