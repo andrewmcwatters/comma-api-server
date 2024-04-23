@@ -72,5 +72,4 @@ server.addMethod('forwardLogs', (params) => {
 
 server.addMethod('storeStats', (params) => {
   console.log(params);
-  return {"success": 1};
 });
