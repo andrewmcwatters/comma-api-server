@@ -14,7 +14,9 @@ wss.on('connection', function connection(ws) {
   ws.on('pong', heartbeat);
 
   ws.on('message', function message(data) {
-    // console.log('received: %s', data);
+    if (!server.hasMethod(JSON.parse(data).method)) {
+      console.log('received: %s', data);
+    }
     server.receive(data).then((jsonRPCResponse) => {
       if (jsonRPCResponse) {
         ws.send(JSON.stringify(jsonRPCResponse));
