@@ -14,10 +14,11 @@ wss.on('connection', function connection(ws) {
   ws.on('pong', heartbeat);
 
   ws.on('message', function message(data) {
-    if (!server.hasMethod(JSON.parse(data).method)) {
+    const jsonRPCRequest = JSON.parse(data);
+    if (!server.hasMethod(jsonRPCRequest.method)) {
       console.log('received: %s', data);
     }
-    server.receive(JSON.parse(data)).then((jsonRPCResponse) => {
+    server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
       if (jsonRPCResponse) {
         ws.send(JSON.stringify(jsonRPCResponse));
       }
@@ -39,30 +40,6 @@ const interval = setInterval(function ping() {
 wss.on('close', function close() {
   clearInterval(interval);
 });
-
-// next will call the next middleware
-const logMiddleware = (next, request, serverParams) => {
-  console.log(`Received ${JSON.stringify(request)}`);
-  return next(request, serverParams).then((response) => {
-    console.log(`Responding ${JSON.stringify(response)}`);
-    return response;
-  });
-};
-
-const exceptionMiddleware = async (next, request, serverParams) => {
-  try {
-    return await next(request, serverParams);
-  } catch (error) {
-    if (error.code) {
-      return createJSONRPCErrorResponse(request.id, error.code, error.message);
-    } else {
-      throw error;
-    }
-  }
-};
-
-// Middleware will be called in the same order they are applied
-server.applyMiddleware(logMiddleware, exceptionMiddleware);
 
 server.addMethod('forwardLogs', (params) => {
   console.log(params);
