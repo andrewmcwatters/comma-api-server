@@ -43,3 +43,7 @@ wss.on('close', function close() {
 server.addMethod('forwardLogs', (params) => {
   console.log(params);
 });
+
+server.addMethod('storeStats', (params) => {
+  console.log(params);
+});
