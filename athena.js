@@ -17,7 +17,7 @@ wss.on('connection', function connection(ws) {
     if (!server.hasMethod(JSON.parse(data).method)) {
       console.log('received: %s', data);
     }
-    server.receive(data).then((jsonRPCResponse) => {
+    server.receive(JSON.parse(data)).then((jsonRPCResponse) => {
       if (jsonRPCResponse) {
         ws.send(JSON.stringify(jsonRPCResponse));
       }
