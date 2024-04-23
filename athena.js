@@ -39,3 +39,7 @@ const interval = setInterval(function ping() {
 wss.on('close', function close() {
   clearInterval(interval);
 });
+
+server.addMethod('forwardLogs', (params) => {
+  console.log(params);
+});
