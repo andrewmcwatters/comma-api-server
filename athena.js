@@ -1,5 +1,5 @@
 const { WebSocketServer } = require('ws');
-const { JSONRPCServer } = require("json-rpc-2.0");
+const { JSONRPCServer } = require('json-rpc-2.0');
 
 function heartbeat() {
   this.isAlive = true;
