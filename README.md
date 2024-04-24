@@ -8,7 +8,7 @@ comma API server
 ### Node.js
 ```sh
 cd comma-api-server
-npm install --omit=dev`
+npm install --omit=dev
 ```
 
 ### pm2
