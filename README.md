@@ -1,5 +1,5 @@
 # comma-api-server
-comma API server
+A drop-in replacement for `api.commadotai.com` in commaai/openpilot
 
 ## Recommended VPS provider
 * [RackNerd](https://my.racknerd.com/aff.php?aff=2502)
